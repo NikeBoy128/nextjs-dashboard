@@ -10,10 +10,11 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { CreateUser, getRoles } from './interfaces/api/api';
-import { RolesInterface, UserFormInterface, getRolesInterface } from './interfaces/userlist';
+import { Datum, UserFormInterface, getRolesInterface } from './interfaces/userlist';
 import AlertComponent from './alert';
 
-export default function FormDialog() {
+export default function FormDialog( {user}: {user: Datum | null}) {
+  console.log(user)
   const [open, setOpen] = React.useState(false);
   const [selectedId, setSelectedId] = React.useState('');
   const [data, setData] = React.useState<getRolesInterface[]>([]);
@@ -46,6 +47,7 @@ export default function FormDialog() {
     setAlert(null)
     handleClose();
     setAlert(<AlertComponent message={response.message} code={response.code} />);
+
   };
 
   return (
