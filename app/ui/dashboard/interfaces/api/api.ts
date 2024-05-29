@@ -1,5 +1,5 @@
-import { Data } from "../userlist";
-const base_url = '10.10.10.3:3001';
+import { AlertResponseInterface, Data, RolesInterface } from "../userlist";
+const base_url = 'localhost:3001';
 export async function getPaginatedUsers({ order, page, perPage,roleId,search }: { order: string; page: number; perPage: number,roleId?:number,search?:string}): Promise<Data> {
     
     const res = await fetch(`http://${base_url}/user/users-whit-pagination?order=${order}&page=${page}&perPage=${perPage}&search=${search}`);
@@ -10,8 +10,8 @@ export async function getPaginatedUsers({ order, page, perPage,roleId,search }: 
     }
 }
 
-export async function CreateUser({userName,lastName,email,password,roleId}: {userName: string; lastName: string; email: string; password: string; roleId: string}): Promise<void> {
-    await fetch(`http://${base_url}/user/create`,{
+export async function CreateUser({userName,lastName,email,password,roleId}: {userName: string; lastName: string; email: string; password: string; roleId: string}):Promise<AlertResponseInterface> {
+    const response = await fetch(`http://${base_url}/user/create`,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -21,7 +21,22 @@ export async function CreateUser({userName,lastName,email,password,roleId}: {use
             lastName: lastName,
             email: email,
             password: password,
-            roleId: roleId
+            roleId: parseInt(roleId)
         })
     })
+
+    const data = await response.json();
+    return{
+        message:data.message,
+        code:data.codeStatus
+    }
 }
+
+export async function getRoles():Promise<RolesInterface>{
+    const res = await fetch(`http://${base_url}/role`);
+    const data = await res.json();
+    return {
+        data:data.data
+    }
+}
+
