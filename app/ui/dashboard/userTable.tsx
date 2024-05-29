@@ -12,10 +12,10 @@ import {
   Pagination,
   TextField,
   Button,
+  Box,
+  IconButton,
 } from '@mui/material';
-import {
-    FunnelIcon,
-  } from '@heroicons/react/24/outline';
+import { FunnelIcon } from '@heroicons/react/24/outline';
 import { Datum } from './interfaces/userlist';
 import { SearchModal } from './search';
 import FormModal from './formmodal';
@@ -26,16 +26,15 @@ export default function UserTable() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
 
-
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getPaginatedUsers({ order: 'ASC', page, perPage: 11,search:search});
+      const res = await getPaginatedUsers({ order: 'ASC', page, perPage: 11, search: search });
       setData(res.data);
       setPagination(res.pagination);
     };
 
     fetchData();
-  }, [page,search]);
+  }, [page, search]);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -44,28 +43,32 @@ export default function UserTable() {
     setSearch(event.target.value);
   };
 
-
-
   return (
-    <>
+    <Box sx={{ padding: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2, width: '80%', margin: 'auto' }}>
       <SearchModal onSearch={setSearch} />
-      <FormModal/>
-      <TableContainer component={Paper}>
+      <FormModal />
+      </Box>
+      
+      <TableContainer component={Paper} sx={{ width: '80%', margin: 'auto', marginTop: 2 }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Nombre</TableCell>
-              <TableCell align="right">Apellido</TableCell>
-              <TableCell align="right">Email</TableCell>
-              <TableCell align="right">Rol</TableCell>
-              <TableCell align="right">Status</TableCell>
+              <TableCell sx={{ width: '20%' }}>Nombre</TableCell>
+              <TableCell sx={{ width: '20%' }} align="right">Apellido</TableCell>
+              <TableCell sx={{ width: '30%' }} align="right">Email</TableCell>
+              <TableCell sx={{ width: '15%' }} align="right">Rol</TableCell>
+              <TableCell sx={{ width: '15%' }} align="right">Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data.map((row) => (
               <TableRow
                 key={row.name}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{ 
+                  '&:last-child td, &:last-child th': { border: 0 },
+                  backgroundColor: row.isActive ? 'rgba(0, 128, 0, 0.1)' : 'rgba(255, 0, 0, 0.1)',
+                }}
               >
                 <TableCell component="th" scope="row">
                   {row.name}
@@ -74,18 +77,19 @@ export default function UserTable() {
                 <TableCell align="right">{row.email}</TableCell>
                 <TableCell align="right">{row.role.name}</TableCell>
                 <TableCell align="right">
-                  {row.isActive === true ? 'Activo' : 'Inactivo'}
+                  {row.isActive ? 'Activo' : 'Inactivo'}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-    <Pagination
-        count={(pagination.pageCount)}
+      <Pagination
+        count={pagination.pageCount}
         page={parseInt(pagination.page)}
         onChange={handleChange}
-    />
-    </>
+        sx={{ marginTop: 2, display: 'flex', justifyContent: 'center' }}
+      />
+    </Box>
   );
 }
