@@ -52,3 +52,15 @@ export interface AlertResponseInterface{
     message:string,
     code:number
 }
+
+export interface Planes {
+    data: PlanesInterface[];
+}
+
+export interface PlanesInterface {
+    id:          string;
+    name:        string;
+    price:       string;
+    description: string;
+    image:       string;
+}
