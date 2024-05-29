@@ -14,7 +14,6 @@ import { Datum, UserFormInterface, getRolesInterface } from './interfaces/userli
 import AlertComponent from './alert';
 
 export default function FormDialog( {user}: {user: Datum | null}) {
-  console.log(user)
   const [open, setOpen] = React.useState(false);
   const [selectedId, setSelectedId] = React.useState('');
   const [data, setData] = React.useState<getRolesInterface[]>([]);
