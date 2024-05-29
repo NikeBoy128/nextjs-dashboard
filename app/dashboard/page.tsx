@@ -1,3 +1,3 @@
 export default function Page() {
-    return <p> asas</p>
+    return <p> INICIO</p>
 }
