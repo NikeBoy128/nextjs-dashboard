@@ -11,12 +11,14 @@ import {
   TableRow,
   Pagination,
   TextField,
+  Button,
 } from '@mui/material';
 import {
     FunnelIcon,
   } from '@heroicons/react/24/outline';
 import { Datum } from './interfaces/userlist';
 import { SearchModal } from './search';
+import FormModal from './formmodal';
 
 export default function UserTable() {
   const [data, setData] = useState<Datum[]>([]);
@@ -47,6 +49,7 @@ export default function UserTable() {
   return (
     <>
       <SearchModal onSearch={setSearch} />
+      <FormModal/>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

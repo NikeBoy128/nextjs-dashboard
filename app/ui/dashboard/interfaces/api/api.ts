@@ -9,3 +9,19 @@ export async function getPaginatedUsers({ order, page, perPage,roleId,search }: 
         pagination: data.data.pagination
     }
 }
+
+export async function CreateUser({userName,lastName,email,password,roleId}: {userName: string; lastName: string; email: string; password: string; roleId: string}): Promise<void> {
+    await fetch(`http://${base_url}/user/create`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: userName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            roleId: roleId
+        })
+    })
+}
