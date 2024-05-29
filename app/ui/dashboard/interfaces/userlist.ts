@@ -31,3 +31,24 @@ export interface Pagination {
     hasPreviousPage: boolean;
     hasNextPage:     boolean;
 }
+
+export interface RolesInterface{
+    data: getRolesInterface[];
+}
+
+export interface getRolesInterface {
+    id:   string;
+    name: string;
+}
+export interface UserFormInterface {
+    id?:string
+    userName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    roleId: string;
+  }
+export interface AlertResponseInterface{
+    message:string,
+    code:number
+}
