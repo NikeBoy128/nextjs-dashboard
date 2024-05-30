@@ -82,7 +82,7 @@ export default function UserTable() {
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell align="right">{row.name}</TableCell>
+                <TableCell align="right">{row.lastName}</TableCell>
                 <TableCell align="right">{row.email}</TableCell>
                 <TableCell align="right">{row.role.name}</TableCell>
                 <TableCell align="right">
