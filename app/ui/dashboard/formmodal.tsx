@@ -14,6 +14,8 @@ import AlertComponent from './alert';
 import {Box,IconButton,} from '@mui/material';
 
 export default function FormDialog( {user}: {user: Datum | null}) {
+  const userEdit= user===null? {name: '', lastName: '', email: '', password: ''}: user;
+ 
   const [open, setOpen] = React.useState(false);
   const [selectedId, setSelectedId] = React.useState('');
   const [data, setData] = React.useState<getRolesInterface[]>([]);
@@ -46,7 +48,6 @@ export default function FormDialog( {user}: {user: Datum | null}) {
     setAlert(null)
     handleClose();
     setAlert(<AlertComponent message={response.message} code={response.code} />);
-
   };
 
   return (
@@ -55,11 +56,11 @@ export default function FormDialog( {user}: {user: Datum | null}) {
         <Button variant="contained" onClick={handleClickOpen} sx={{background: '#1976d2', color: 'blue', '&:hover': {background: 'white', },}}>Crear</Button>
       </Box>
       <Dialog open={open} onClose={handleClose} PaperProps={{component: 'form', onSubmit: handleSubmit, sx: { padding: 2, maxWidth: '400px', borderRadius: '10px' }, }}>
-        <DialogTitle> Crear Usuario
+        <DialogTitle> Crear Usuario y/o Editar
           <IconButton aria-label="close" onClick={handleClose}sx={{position: 'absolute',right: 8,top: 8,color: (theme) => theme.palette.grey[500],}}></IconButton>
         </DialogTitle>
         <DialogContent dividers>
-          <TextField autoFocus required margin="dense" id="userName"name="userName" type="text" fullWidth variant="outlined" placeholder="Nombre Usuario" size="small" sx={{ mb: 2 }}/>
+          <TextField autoFocus required margin="dense" id="userName"name="userName" type="text" fullWidth variant="outlined" placeholder="Nombre Usuario" size="small" sx={{ mb: 2 }} value={userEdit.name}/>
           <TextField required margin="dense" id="lastName" name="lastName" type="text"  fullWidth  variant="outlined" placeholder="Apellido" size="small" sx={{ mb: 2 }}/>
           <TextField required margin="dense" id="password" name="password" type="password" fullWidth variant="outlined" placeholder="Contraseña" size="small" sx={{ mb: 2 }}/>
           <FormControl fullWidth variant="outlined" sx={{ mb: 2 }} size="small">
