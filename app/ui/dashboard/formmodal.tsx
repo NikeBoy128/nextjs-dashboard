@@ -60,7 +60,7 @@ export default function FormDialog( {user}: {user: Datum | null}) {
           <IconButton aria-label="close" onClick={handleClose}sx={{position: 'absolute',right: 8,top: 8,color: (theme) => theme.palette.grey[500],}}></IconButton>
         </DialogTitle>
         <DialogContent dividers>
-          <TextField autoFocus required margin="dense" id="userName"name="userName" type="text" fullWidth variant="outlined" placeholder="Nombre Usuario" size="small" sx={{ mb: 2 }} value={userEdit.name}/>
+          <TextField autoFocus required margin="dense" id="userName"name="userName" type="text" fullWidth variant="outlined" placeholder="Nombre Usuario" size="small" sx={{ mb: 2 }}/>
           <TextField required margin="dense" id="lastName" name="lastName" type="text"  fullWidth  variant="outlined" placeholder="Apellido" size="small" sx={{ mb: 2 }}/>
           <TextField required margin="dense" id="password" name="password" type="password" fullWidth variant="outlined" placeholder="Contraseña" size="small" sx={{ mb: 2 }}/>
           <FormControl fullWidth variant="outlined" sx={{ mb: 2 }} size="small">
