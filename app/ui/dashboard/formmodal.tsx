@@ -14,7 +14,6 @@ import AlertComponent from './alert';
 import {Box,IconButton,} from '@mui/material';
 
 export default function FormDialog( {user}: {user: Datum | null}) {
-  console.log(user)
   const [open, setOpen] = React.useState(false);
   const [selectedId, setSelectedId] = React.useState('');
   const [data, setData] = React.useState<getRolesInterface[]>([]);

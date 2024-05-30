@@ -1,4 +1,4 @@
-import { AlertResponseInterface, Data, RolesInterface } from "../userlist";
+import { AlertResponseInterface, Data, Planes, RolesInterface } from "../userlist";
 const base_url = 'localhost:3001';
 export async function getPaginatedUsers({ order, page, perPage,roleId,search }: { order: string; page: number; perPage: number,roleId?:number,search?:string}): Promise<Data> {
     
@@ -40,3 +40,12 @@ export async function getRoles():Promise<RolesInterface>{
     }
 }
 
+export async function getPlanes():Promise<Planes>{
+    const res= await fetch(`http://${base_url}/plans`);
+    const data = await res.json();
+
+    return{
+        data:data.data,
+    }
+    
+}
