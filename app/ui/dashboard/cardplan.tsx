@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { getPlanes } from './interfaces/api/api';
+import { getPlans } from './interfaces/api/api';
 
 export default async function CardPlan() {
-  const res = await getPlanes();
+  const res = await getPlans();
   const dataPlanes = res.data;
   return dataPlanes.map((plan) => (
     <div  key={plan.name} className="max-w-xs rounded-lg border border-gray-200 bg-white shadow-lg">

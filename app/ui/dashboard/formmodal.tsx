@@ -14,6 +14,8 @@ import AlertComponent from './alert';
 import {Box,IconButton,} from '@mui/material';
 
 export default function FormDialog( {user}: {user: Datum | null}) {
+  const userEdit= user===null? {name: '', lastName: '', email: '', password: ''}: user;
+ 
   const [open, setOpen] = React.useState(false);
   const [selectedId, setSelectedId] = React.useState('');
   const [data, setData] = React.useState<getRolesInterface[]>([]);
@@ -46,7 +48,6 @@ export default function FormDialog( {user}: {user: Datum | null}) {
     setAlert(null)
     handleClose();
     setAlert(<AlertComponent message={response.message} code={response.code} />);
-
   };
 
   return (
@@ -55,7 +56,7 @@ export default function FormDialog( {user}: {user: Datum | null}) {
         <Button variant="contained" onClick={handleClickOpen} sx={{background: '#1976d2', color: 'blue', '&:hover': {background: 'white', },}}>Crear</Button>
       </Box>
       <Dialog open={open} onClose={handleClose} PaperProps={{component: 'form', onSubmit: handleSubmit, sx: { padding: 2, maxWidth: '400px', borderRadius: '10px' }, }}>
-        <DialogTitle> Crear Usuario
+        <DialogTitle> Crear Usuario y/o Editar
           <IconButton aria-label="close" onClick={handleClose}sx={{position: 'absolute',right: 8,top: 8,color: (theme) => theme.palette.grey[500],}}></IconButton>
         </DialogTitle>
         <DialogContent dividers>

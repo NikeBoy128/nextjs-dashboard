@@ -15,7 +15,7 @@ import {
   Box,
   IconButton,
 } from '@mui/material';
-import { FunnelIcon } from '@heroicons/react/24/outline';
+import { FunnelIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Datum } from './interfaces/userlist';
 import { SearchModal } from './search';
 import FormModal from './formmodal';
@@ -51,6 +51,9 @@ export default function UserTable() {
 
   const handleEdit = (user: Datum) => {
     setSelectedUser(user);
+    
+
+
   };
 
   return (
@@ -68,33 +71,39 @@ export default function UserTable() {
               <TableCell sx={{ width: '30%' }} align="right">Email</TableCell>
               <TableCell sx={{ width: '15%' }} align="right">Rol</TableCell>
               <TableCell sx={{ width: '15%' }} align="right">Status</TableCell>
-              <TableCell sx={{ width: '15%' }} align="right">Oper</TableCell>
+              <TableCell sx={{ width: '10%' }} align="right">Edit</TableCell>
+              <TableCell sx={{ width: '10%' }} align="right">Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data.map((row) => (
               <TableRow
-                key={row.name}
-                sx={{ 
-                  '&:last-child td, &:last-child th': { border: 0 },
-                  backgroundColor: row.isActive ? 'rgba(0, 128, 0, 0.1)' : 'rgba(255, 0, 0, 0.1)',
-                }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.name}</TableCell>
-                <TableCell align="right">{row.email}</TableCell>
-                <TableCell align="right">{row.role.name}</TableCell>
-                <TableCell align="right">
-                  {row.isActive ? 'Activo' : 'Inactivo'}
-                </TableCell>
-                <TableCell align="right">
-                  <IconButton onClick={() => handleEdit(row)}>
-                    <FunnelIcon style={{ width: 20, height: 20 }} />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
+              key={row.name}
+              sx={{ 
+                '&:last-child td, &:last-child th': { border: 0 },
+                backgroundColor: row.isActive ? 'rgba(0, 128, 0, 0.1)' : 'rgba(255, 0, 0, 0.1)',
+              }}
+            >
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell align="right">{row.name}</TableCell>
+              <TableCell align="right">{row.email}</TableCell>
+              <TableCell align="right">{row.role.name}</TableCell>
+              <TableCell align="right">
+                {row.isActive ? 'Activo' : 'Inactivo'}
+              </TableCell>
+              <TableCell align="right">
+                <IconButton onClick={() => handleEdit(row)}>
+                  <PencilIcon style={{ width: 20, height: 20 }} />
+                </IconButton>
+              </TableCell>
+              <TableCell align="right">
+                <IconButton onClick={() => handleEdit(row)}>
+                  <TrashIcon style={{ width: 20, height: 20 }} />
+                </IconButton>
+              </TableCell>
+            </TableRow>
             ))}
           </TableBody>
         </Table>
