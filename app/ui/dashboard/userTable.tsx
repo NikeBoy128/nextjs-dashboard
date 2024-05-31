@@ -68,6 +68,7 @@ export default function UserTable() {
               <TableCell sx={{ width: '30%' }} align="right">Email</TableCell>
               <TableCell sx={{ width: '15%' }} align="right">Rol</TableCell>
               <TableCell sx={{ width: '15%' }} align="right">Status</TableCell>
+              <TableCell sx={{ width: '15%' }} align="right">Oper</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -87,6 +88,11 @@ export default function UserTable() {
                 <TableCell align="right">{row.role.name}</TableCell>
                 <TableCell align="right">
                   {row.isActive ? 'Activo' : 'Inactivo'}
+                </TableCell>
+                <TableCell align="right">
+                  <IconButton onClick={() => handleEdit(row)}>
+                    <FunnelIcon style={{ width: 20, height: 20 }} />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
