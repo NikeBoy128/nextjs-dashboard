@@ -19,13 +19,14 @@ import { FunnelIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Datum } from './interfaces/userlist';
 import { SearchModal } from './search';
 import FormModal from './formmodal';
+import FormDialogEdit from './formeditmodal';
 
 export default function UserTable() {
   const [data, setData] = useState<Datum[]>([]);
   const [pagination, setPagination] = useState({ page: '1', pageCount: 0 });
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
-  const [selectedUser, setSelectedUser] = useState<Datum | null>(null);
+  const [selectedUser, setSelectedUser] = useState<Datum>(Object);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +61,7 @@ export default function UserTable() {
     <Box sx={{ padding: 2 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2, width: '80%', margin: 'auto' }}>
       <SearchModal onSearch={setSearch} />
-      <FormModal user={selectedUser} />
+      <FormModal/>
       </Box>
       <TableContainer component={Paper} sx={{ width: '80%', margin: 'auto', marginTop: 2 }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -95,7 +96,8 @@ export default function UserTable() {
               </TableCell>
               <TableCell align="right">
                 <IconButton onClick={() => handleEdit(row)}>
-                  <PencilIcon style={{ width: 20, height: 20 }} />
+                  
+                  <FormDialogEdit user={selectedUser}/>
                 </IconButton>
               </TableCell>
               <TableCell align="right">

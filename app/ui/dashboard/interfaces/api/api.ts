@@ -62,13 +62,14 @@ export async function deleteUser({id}: {id: number}):Promise<AlertResponseInterf
     }
 }
 
-export async function updateUser({id,userName,lastName,email,password,roleId}: {id: number; userName: string; lastName: string; email: string; password: string; roleId: string}):Promise<AlertResponseInterface>{
+export async function updateUser({id,userName,lastName,email,password,roleId}: {id?: string; userName: string; lastName: string; email: string; password: string; roleId: string}):Promise<AlertResponseInterface>{
     const response = await fetch(`http://${base_url}/user/update/`,{
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+            id: id,
             name: userName,
             lastName: lastName,
             email: email,

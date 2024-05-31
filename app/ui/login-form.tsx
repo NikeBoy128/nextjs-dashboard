@@ -8,30 +8,6 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AlertComponent from './dashboard/alert';
 
-// Componente de Alerta
-const Alert: React.FC<{ message: string; onClose: () => void }> = ({ message, onClose }) => {
-  return (
-    <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
-      <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-        <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-      </div>
-      <div className="relative bg-white rounded-lg p-8 max-w-md">
-        <div className="text-center">
-          <h3 className="text-lg font-bold mb-4">Alerta</h3>
-          <p className="text-gray-700">{message}</p>
-        </div>
-        <div className="mt-6 flex justify-center">
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onClick={onClose}
-          >
-            Ok
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -44,12 +20,12 @@ export default function LoginForm() {
   const handleLogin = async (event: { preventDefault: () => void }) => {
     setAlert(null);
     event.preventDefault();
-    //const user = await validateLogin({ email, password });
-    //if (user.accessToken) {
-      if (email=='admin@40gmail.com' && password=='admin16') {
+    const user = await validateLogin({ email, password });
+      if (user.accessToken) {
+        localStorage.setItem('accsessToken', user.accessToken);
       setShowAlert(true);
       setTimeout(() => {
-        router.push('/dashboard'); // Redirige usando useRouter de next/navigation
+        router.push('/dashboard'); 
       }, 1000);
     
     } else {
@@ -63,7 +39,6 @@ export default function LoginForm() {
 
   return (
     <form className="space-y-3" onSubmit={handleLogin}>
-      {showAlert && <Alert message="Inicio de sesión exitoso" onClose={closeAlert} />}
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
         <h1 className={`mb-3 text-2xl`}>Please log in to continue.</h1>
         <div className="w-full">
