@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { getPaginatedUsers } from './interfaces/api/api';
+import { deleteUser, getPaginatedUsers } from './interfaces/api/api';
 import {
   TableContainer,
   Paper,
@@ -52,10 +52,12 @@ export default function UserTable() {
 
   const handleEdit = (user: Datum) => {
     setSelectedUser(user);
-    
-
 
   };
+
+  const handleDelete =  async (id: string) => {
+    await deleteUser({ id });
+  }
 
   return (
     <Box sx={{ padding: 2 }}>
@@ -88,7 +90,7 @@ export default function UserTable() {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.name}</TableCell>
+              <TableCell align="right">{row.lastName}</TableCell>
               <TableCell align="right">{row.email}</TableCell>
               <TableCell align="right">{row.role.name}</TableCell>
               <TableCell align="right">
@@ -101,7 +103,7 @@ export default function UserTable() {
                 </IconButton>
               </TableCell>
               <TableCell align="right">
-                <IconButton onClick={() => handleEdit(row)}>
+                <IconButton onClick={() => handleDelete(row.id)}>
                   <TrashIcon style={{ width: 20, height: 20 }} />
                 </IconButton>
               </TableCell>

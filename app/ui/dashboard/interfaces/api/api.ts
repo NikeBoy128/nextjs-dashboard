@@ -1,5 +1,5 @@
 import { AlertResponseInterface, Data, LoginResponseInterface, Planes, RolesInterface } from "../userlist";
-const base_url = '10.10.10.3:3001';
+const base_url = 'localhost:3001';
 export async function getPaginatedUsers({ order, page, perPage,roleId,search }: { order: string; page: number; perPage: number,roleId?:number,search?:string}): Promise<Data> {
     
     const res = await fetch(`http://${base_url}/user/users-whit-pagination?order=${order}&page=${page}&perPage=${perPage}&search=${search}`);
@@ -48,12 +48,9 @@ export async function getPlans():Promise<Planes>{
     }
     
 }
-export async function deleteUser({id}: {id: number}):Promise<AlertResponseInterface>{
-    const response = await fetch(`http://${base_url}/user/delete/${id}`,{
+export async function deleteUser({id}: {id: string}):Promise<AlertResponseInterface>{
+    const response = await fetch(`http://${base_url}/user/delete${id}`,{
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        }
     })
     const data = await response.json();
     return{

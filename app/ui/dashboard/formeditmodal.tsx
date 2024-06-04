@@ -46,7 +46,8 @@ export default function FormDialogEdit({user}:{user:Datum}) {
     const formData = new FormData(event.currentTarget);
     formData.append('roleId', selectedId);
     const formJson = Object.fromEntries((formData as any).entries()) as UserFormInterface
-    const response= await updateUser(formJson)
+    formJson.id = user.id;
+    const response= await updateUser(formJson);
     setAlert(null)
     handleClose();
     setAlert(<AlertComponent message={response.message} code={response.code} />);
@@ -62,7 +63,6 @@ export default function FormDialogEdit({user}:{user:Datum}) {
           <IconButton aria-label="close" onClick={handleClose}sx={{position: 'absolute',right: 8,top: 8,color: (theme) => theme.palette.grey[500],}}></IconButton>
         </DialogTitle>
         <DialogContent dividers>
-        <TextField id='id' name='id' defaultValue={user.id} hidden/>
           <TextField autoFocus required margin="dense" id="userName"name="userName" type="text" fullWidth variant="outlined" placeholder="Nombre Usuario" size="small" sx={{ mb: 2 }} defaultValue={user.name}/>
           <TextField required margin="dense" id="lastName" name="lastName" type="text"  fullWidth  variant="outlined" placeholder="Apellido" size="small" sx={{ mb: 2 }} defaultValue={user.lastName}/>
           <TextField required margin="dense" id="password" name="password" type="password" fullWidth variant="outlined" placeholder="Contraseña" size="small" sx={{ mb: 2 }} defaultValue={user.password}/>
