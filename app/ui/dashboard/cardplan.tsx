@@ -1,13 +1,22 @@
+'use client';
 import Image from 'next/image';
 import { getPlans } from './interfaces/api/api';
+import { useEffect, useState } from 'react';
+import { PlanesInterface } from './interfaces/userlist';
 
-export default async function CardPlan() {
-  const res = await getPlans();
-  const dataPlanes = res.data;
+export default  function CardPlan() {
+  const [dataPlanes, setDataPlanes] = useState<PlanesInterface[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getPlans();
+      setDataPlanes(response.data);
+    };
+    fetchData();
+  }, []);
   return dataPlanes.map((plan) => (
     <div  key={plan.name} className="max-w-xs rounded-lg border border-gray-200 bg-white shadow-lg">
       <div className="relative h-48 w-full">
-        <Image
+        <img
          src={plan.image}
          alt='imagen'
           layout="fill" objectFit="cover" className="rounded-t-lg"/>
