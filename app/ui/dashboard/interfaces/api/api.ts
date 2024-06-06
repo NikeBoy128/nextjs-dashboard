@@ -1,5 +1,5 @@
 import { AlertResponseInterface, Data, LoginResponseInterface, Planes, RolesInterface } from "../userlist";
-const base_url = '10.10.10.3:3001';
+const base_url = 'localhost:3001';
 export async function getPaginatedUsers({ order, page, perPage,roleId,search }: { order: string; page: number; perPage: number,roleId?:number,search?:string}): Promise<Data> {
     
     const res = await fetch(`http://${base_url}/user/users-whit-pagination?order=${order}&page=${page}&perPage=${perPage}&search=${search}`);
@@ -98,3 +98,42 @@ export async function validateLogin({email,password}: {email: string; password: 
         refreshToken:data.refreshToken
     }
 }
+
+export async function  getBenefits({id}: {id: string}){
+    const res = await fetch(`http://${base_url}/plans/benefits/${id}`);
+    
+    const data = await res.json();
+    return{
+        data:data.data
+    }
+}
+export async function deleteBenefit({id}: {id: string}):Promise<AlertResponseInterface>{
+    const response = await fetch(`http://${base_url}/plans/benefits/${id}`,{
+        method: 'DELETE',
+    })
+    const data = await response.json();
+    return{
+        message:data.message,
+        code:data.codeStatus
+    }
+}
+
+export async function addBenefit({planId,benefitId}:{planId:number,benefitId:number}):Promise<AlertResponseInterface>{
+    const response = await fetch(`http://${base_url}/plans/add-benefit`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            planId: planId,
+            benefitId: benefitId
+        })
+    })
+    const data = await response.json();
+    return{
+        message:data.message,
+        code:data.codeStatus
+    }
+
+}
+  

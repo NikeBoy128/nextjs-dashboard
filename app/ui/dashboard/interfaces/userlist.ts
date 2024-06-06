@@ -72,3 +72,13 @@ export interface LoginResponseInterface{
     accessToken:string,
     refreshToken:string,
 }
+
+export interface BenefitsResponse {
+    data: BenefitInterface[];
+}
+
+export interface BenefitInterface {
+    id:          string;
+    description: string;
+    status:      boolean;
+}

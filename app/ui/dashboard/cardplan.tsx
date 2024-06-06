@@ -21,7 +21,7 @@ export default function CardPlan() {
       {dataPlanes.map((plan) => (
         <div key={plan.name} className="max-w-xs rounded-lg border border-gray-200 bg-white shadow-lg">
           <div className="relative h-48 w-full">
-            {/* Aquí puedes agregar contenido como una imagen */}
+            {}
           </div>
           <div className="p-5">
             <a href="#">
@@ -33,7 +33,7 @@ export default function CardPlan() {
               {plan.description}
             </p>
             <div className="flex justify-center">
-              <Formplanmodal />
+              <Formplanmodal id={plan.id} name={plan.name} />
             </div>
           </div>
         </div>

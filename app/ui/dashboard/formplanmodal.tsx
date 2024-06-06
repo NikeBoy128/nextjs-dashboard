@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, ListItemIcon, Checkbox, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { BackwardIcon } from '@heroicons/react/24/outline';
+import { BenefitInterface } from './interfaces/userlist';
+import { addBenefit, deleteBenefit, getBenefits } from './interfaces/api/api';
+import AlertComponent from './alert';
 
-const Modalcheck = () => {
+const Modalcheck = ({id,name}:{id:string,name:string}) => {
   const [open, setOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('');
-  const [checkboxOptions, setCheckboxOptions] = useState([
-    { id: 1, name: 'Descuentos en productos o servicios relacionados con la salud y el bienestar', is_checked: false },
-    { id: 2, name: 'Yoga', is_checked: false },
-    { id: 3, name: 'Pesas', is_checked: false },
-    { id: 4, name: 'CrossFit', is_checked: false },
-    { id: 5, name: 'Pilates', is_checked: false },
-    { id: 6, name: 'Boxeo', is_checked: false },
-    { id: 7, name: 'Zumba', is_checked: false },
-    { id: 8, name: 'Ciclismo', is_checked: false },
-    { id: 9, name: 'Natación', is_checked: false },
-    { id: 10, name: 'HIIT', is_checked: false },
-  ]);
+  const [checkboxOptions, setCheckboxOptions] = useState<BenefitInterface[]>([])
+  const [alert,setAlert]=useState<React.ReactNode | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await  getBenefits({id});
+      setCheckboxOptions(response.data);
+    };
+    fetchData();
+  }, [id]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,12 +27,27 @@ const Modalcheck = () => {
     setOpen(false);
   };
 
-  const handleCheckboxChange = (id: number) => {
+  const handleCheckboxChange = async (id: string,planId:string) => {
+    setAlert(null);
     setCheckboxOptions((prevOptions) =>
       prevOptions.map((option) =>
-        option.id === id ? { ...option, is_checked: !option.is_checked } : option
+        option.id === id ? { ...option, status: !option.status } : option
       )
     );
+
+    const option = checkboxOptions.find(option => option.id === id);
+    if (option) {
+      if (option.status) {
+        
+        const response =await deleteBenefit({id});
+        setAlert(<AlertComponent message={response.message} code={response.code} />);
+
+      } else {
+        
+        const responseDelete=addBenefit({planId:parseInt(planId),benefitId:parseInt(id)});
+        setAlert(<AlertComponent message={(await responseDelete).message} code={(await responseDelete).code} />);
+      }
+    }
   };
 
   const handlePlanSelection = (name: string) => {
@@ -60,7 +76,7 @@ const Modalcheck = () => {
           sx: { padding: 2, maxWidth: '500px', borderRadius: '10px' },
         }}>
         <DialogTitle> 
-          Configuración de {selectedPlan && <span>{selectedPlan}</span>}
+          Configuración de { <span>{name}</span>}
           <IconButton 
             aria-label="close" 
             onClick={handleClose}
@@ -70,20 +86,20 @@ const Modalcheck = () => {
               top: 8,
               color: (theme) => theme.palette.grey[500],
             }}>
-            <CloseIcon />
+            <BackwardIcon />
           </IconButton>
         </DialogTitle>
         <DialogContent dividers>
           <List>
             {checkboxOptions.map((option) => (
-              <ListItem key={option.id} disablePadding onClick={() => handlePlanSelection(option.name)}>
+              <ListItem key={option.id} disablePadding onClick={() => handlePlanSelection(option.description)}>
                 <ListItemIcon>
                   <Checkbox 
-                    checked={option.is_checked} 
-                    onChange={() => handleCheckboxChange(option.id)} 
+                    checked={option.status} 
+                    onChange={() => handleCheckboxChange(option.id,id)} 
                   />
                 </ListItemIcon>
-                <ListItemText primary={option.name} />
+                <ListItemText primary={option.description} />
               </ListItem>
             ))}
           </List>
@@ -101,6 +117,7 @@ const Modalcheck = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      {alert}
     </React.Fragment>
   );
 };
