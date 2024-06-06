@@ -2,6 +2,7 @@ import {
   HomeIcon,
   UserIcon,
   MapIcon,
+  UserGroupIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
@@ -15,6 +16,7 @@ const links = [
     icon: UserIcon,
   },
   { name: 'Plans', href: '/dashboard/plans', icon: MapIcon },
+  { name: 'Inscritos', href: '/dashboard/inscritos', icon: UserGroupIcon },
 ];
 
 export default function NavLinks() {

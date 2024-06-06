@@ -49,7 +49,6 @@ const Modalcheck = ({id,name}:{id:string,name:string}) => {
       }
     }
   };
-
   const handlePlanSelection = (name: string) => {
     setSelectedPlan(name);
   };
