@@ -1,9 +1,10 @@
-import React from 'react'
+import FormInscri from '@/app/ui/dashboard/formInscri';
 
-function inscritos() {
-  return (
-    <div>inscritos</div>
-  )
+
+export default function FormularioInscri() {
+    return (
+    <div>
+        <FormInscri />
+    </div>
+    );
 }
-
-export default inscritos

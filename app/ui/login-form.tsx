@@ -7,7 +7,7 @@ import { validateLogin } from './dashboard/interfaces/api/api';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AlertComponent from './dashboard/alert';
-
+import Link from 'next/link';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -82,7 +82,11 @@ export default function LoginForm() {
           Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
         {alert && <AlertComponent message={alert.message} code={alert.code} />}
-        <div className="flex h-8 items-end space-x-1"></div>
+        <div className="mt-4 text-center">
+         <Link href='../ui/dashboard/recupecontra' className="text-sm text-indigo-600 hover:underline">
+            ¿Olvidaste tu contraseña?
+          </Link>
+      </div>
       </div>
     </form>
   );
