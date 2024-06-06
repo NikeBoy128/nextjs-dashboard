@@ -21,7 +21,7 @@ export default function CardPlan() {
       {dataPlanes.map((plan) => (
         <div key={plan.name} className="max-w-xs rounded-lg border border-gray-200 bg-white shadow-lg">
           <div className="relative h-48 w-full">
-            {}
+            <img src={plan.image} title='imagen' />
           </div>
           <div className="p-5">
             <a href="#">
