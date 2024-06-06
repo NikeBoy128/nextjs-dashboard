@@ -39,7 +39,7 @@ const Modalcheck = ({id,name}:{id:string,name:string}) => {
     if (option) {
       if (option.status) {
         
-        const response =await deleteBenefit({id});
+        const response =await deleteBenefit({planId:planId,benefitId:id});
         setAlert(<AlertComponent message={response.message} code={response.code} />);
 
       } else {
@@ -49,7 +49,6 @@ const Modalcheck = ({id,name}:{id:string,name:string}) => {
       }
     }
   };
-
   const handlePlanSelection = (name: string) => {
     setSelectedPlan(name);
   };

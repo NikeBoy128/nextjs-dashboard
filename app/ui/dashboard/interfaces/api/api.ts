@@ -107,8 +107,8 @@ export async function  getBenefits({id}: {id: string}){
         data:data.data
     }
 }
-export async function deleteBenefit({id}: {id: string}):Promise<AlertResponseInterface>{
-    const response = await fetch(`http://${base_url}/plans/benefits/${id}`,{
+export async function deleteBenefit({planId,benefitId}: {planId: string,benefitId:string}):Promise<AlertResponseInterface>{
+    const response = await fetch(`http://${base_url}/plans/benefits?planId=${planId}&benefitId=${benefitId}`,{
         method: 'DELETE',
     })
     const data = await response.json();
