@@ -1,4 +1,4 @@
-import { AlertResponseInterface, Data, LoginResponseInterface, Planes, RolesInterface } from "../userlist";
+import { AlertResponseInterface, Data, LoginResponseInterface, Planes, ResponsePaginationInscription, RolesInterface } from "../userlist";
 const base_url = 'localhost:3001';
 export async function getPaginatedUsers({ order, page, perPage,roleId,search }: { order: string; page: number; perPage: number,roleId?:number,search?:string}): Promise<Data> {
     
@@ -9,7 +9,15 @@ export async function getPaginatedUsers({ order, page, perPage,roleId,search }: 
         pagination: data.data.pagination
     }
 }
-
+export async function getPaginationInscripcions({ order, page, perPage,planId,search }: { order: string; page: number; perPage: number,planId?:number,search?:string}): Promise<ResponsePaginationInscription> {
+    
+    const res = await fetch(`http://${base_url}/user/inscripcions-whit-pagination?order=${order}&page=${page}&perPage=${perPage}&search=${search}`);
+    const data = await res.json();
+    return{
+        data: data.data.data,
+        pagination: data.data.pagination
+    }
+}
 export async function CreateUser({userName,lastName,email,password,roleId}: {userName: string; lastName: string; email: string; password: string; roleId: string}):Promise<AlertResponseInterface> {
     const response = await fetch(`http://${base_url}/user/create`,{
         method: 'POST',
@@ -106,6 +114,15 @@ export async function  getBenefits({id}: {id: string}){
     return{
         data:data.data
     }
+}
+
+export async function getOnlyPlanBenefits({id}: {id: string}){
+    const res = await fetch(`http://${base_url}/plans/only-benefits/${id}`);
+    const data = await res.json();
+    return{
+        data:data.data
+    }
+
 }
 export async function deleteBenefit({planId,benefitId}: {planId: string,benefitId:string}):Promise<AlertResponseInterface>{
     const response = await fetch(`http://${base_url}/plans/benefits?planId=${planId}&benefitId=${benefitId}`,{

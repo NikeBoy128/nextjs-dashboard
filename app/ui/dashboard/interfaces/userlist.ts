@@ -82,3 +82,55 @@ export interface BenefitInterface {
     description: string;
     status:      boolean;
 }
+
+
+
+
+
+export interface ResponsePaginationInscription {
+    data:       InscripcionInterface[];
+    pagination: Pagination;
+}
+
+export interface InscripcionInterface {
+    id:           string;
+    userId:       string;
+    planId:       string;
+    registerDate: Date;
+    createdAt:    null;
+    updatedAt:    null;
+    deletedAt:    null;
+    user:         User;
+    plan:         Plan;
+}
+
+export interface Plan {
+    id:          string;
+    name:        string;
+    price:       string;
+    description: string;
+    image:       string;
+}
+
+export interface User {
+    id:        string;
+    name:      string;
+    lastName:  string;
+    avatarUrl: string;
+    email:     string;
+    roleId:    string;
+    password:  string;
+    isActive:  boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    deletedAt: null;
+}
+
+export interface Pagination {
+    page:            string;
+    perPage:         string;
+    total:           number;
+    pageCount:       number;
+    hasPreviousPage: boolean;
+    hasNextPage:     boolean;
+}

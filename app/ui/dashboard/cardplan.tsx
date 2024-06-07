@@ -18,26 +18,30 @@ export default function CardPlan() {
 
   return (
     <>
-      {dataPlanes.map((plan) => (
-        <div key={plan.name} className="max-w-xs rounded-lg border border-gray-200 bg-white shadow-lg">
-          <div className="relative h-48 w-full">
-            <img src={plan.image} title='imagen' />
-          </div>
-          <div className="p-5">
-            <a href="#">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-                {plan.name}
-              </h5>
-            </a>
-            <p className="mb-3 font-normal text-gray-700">
-              {plan.description}
-            </p>
-            <div className="flex justify-center">
-              <Formplanmodal id={plan.id} name={plan.name} />
+      <div className="flex flex-wrap justify-center gap-6">
+        {dataPlanes.map((plan) => (
+          <div key={plan.name} className="w-72 max-w-xs bg-white border border-gray-300 rounded-lg overflow-hidden shadow-lg">
+            <div className="relative h-48">
+              <img src={plan.image} alt={plan.name} className="object-cover w-full h-full" />
+            </div>
+            <div className="p-5 flex flex-col justify-between">
+              <div>
+                <a href="#" className="block">
+                  <h5 className="mb-2 text-xl font-semibold text-gray-900 hover:text-blue-600 transition duration-300">
+                    {plan.name}
+                  </h5>
+                </a>
+                <p className="mb-3 text-gray-700">
+                  {plan.description}
+                </p>
+              </div>
+              <div className="mt-auto flex justify-center">
+                <Formplanmodal id={plan.id} name={plan.name} />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </>
   );
 }
