@@ -1,5 +1,5 @@
 import { AlertResponseInterface, Data, LoginResponseInterface, Planes, ResponsePaginationInscription, RolesInterface } from "../userlist";
-const base_url = 'localhost:3001';
+const base_url = process.env.NEXT_PUBLIC_BASE_URL;
 export async function getPaginatedUsers({ order, page, perPage,roleId,search }: { order: string; page: number; perPage: number,roleId?:number,search?:string}): Promise<Data> {
     
     const res = await fetch(`http://${base_url}/user/users-whit-pagination?order=${order}&page=${page}&perPage=${perPage}&search=${search}`);
