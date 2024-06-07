@@ -20,7 +20,9 @@ import {
   getOnlyPlanBenefits,
   getPaginatedUsers,
   getPlans,
+  saveInscripcion,
 } from './interfaces/api/api';
+import AlertComponent from './alert';
 const FormInscripcion: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<string>('');
@@ -29,6 +31,7 @@ const FormInscripcion: React.FC = () => {
   const [dataBenefits, setDataBenefits] = useState<string>('');
   const [selectedPlan, setSelectedPlan] = useState<string>('');
   const [benefits, setBenefits] = useState<string>();
+  const [alert, setAlert] = React.useState<React.ReactNode | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       const resUsers = await getPaginatedUsers({
@@ -70,11 +73,14 @@ const FormInscripcion: React.FC = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setAlert(null);
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries((formData as any).entries());
+    const formJson = Object.fromEntries((formData as any).entries()) as {userId: string; planId: string};
     formJson.userId = selectedUser;
     formJson.planId = selectedPlan;
+    const response= await saveInscripcion(formJson);
+    setAlert(<AlertComponent message={response.message} code={response.code} />);
   };
 
   return (
@@ -169,6 +175,7 @@ const FormInscripcion: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      {alert}
     </>
   );
 };
