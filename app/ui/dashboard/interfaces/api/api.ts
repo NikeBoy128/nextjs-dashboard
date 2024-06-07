@@ -153,4 +153,21 @@ export async function addBenefit({planId,benefitId}:{planId:number,benefitId:num
     }
 
 }
-  
+export async function saveInscripcion({userId,planId}:{userId:string,planId:string}):Promise<AlertResponseInterface>{
+    const response=await fetch(`http://${base_url}/user/create-inscription`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userId: Number(userId),
+            planId: Number(planId)
+        })
+    })
+
+    const data = await response.json();
+    return{
+        message:data.message,
+        code:data.codeStatus
+    }
+}
