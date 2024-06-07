@@ -28,10 +28,7 @@ const FormInscripcion: React.FC = () => {
   const [dataPlans, setDataPlans] = useState<PlanesInterface[]>([]);
   const [dataBenefits, setDataBenefits] = useState<string>('');
   const [selectedPlan, setSelectedPlan] = useState<string>('');
-  const [benefits, setBenefits] = useState<string>(
-    'Los beneficios del plan seleccionado se mostrarán aquí.',
-  );
-
+  const [benefits, setBenefits] = useState<string>();
   useEffect(() => {
     const fetchData = async () => {
       const resUsers = await getPaginatedUsers({

@@ -60,9 +60,9 @@ const Modalcheck = ({id,name}:{id:string,name:string}) => {
         variant="contained" 
         onClick={handleClickOpen} 
         sx={{
-            backgroundColor: '#4caf50', 
-            color: '#ffffff', 
-            '&:hover': { backgroundColor: '#388e3c' },
+            backgroundColor: 'green', 
+            color: 'green', 
+            '&:hover': { backgroundColor: 'green', color:'white' },
         }}>
         Seleccionar 
         </Button>
