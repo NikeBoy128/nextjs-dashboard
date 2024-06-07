@@ -122,5 +122,3 @@ const Modalcheck = ({id,name}:{id:string,name:string}) => {
 };
 
 export default Modalcheck;
-
-

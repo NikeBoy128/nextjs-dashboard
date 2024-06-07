@@ -1,93 +1,179 @@
 'use client';
-import React, { useState } from 'react';
-import { Box, Button, TextField, FormControl, Select, MenuItem, Typography, Paper } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  Box,
+  Button,
+  TextField,
+  FormControl,
+  Select,
+  MenuItem,
+  Typography,
+  Paper,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
-
+import { Datum, PlanesInterface } from './interfaces/userlist';
+import {
+  getOnlyPlanBenefits,
+  getPaginatedUsers,
+  getPlans,
+} from './interfaces/api/api';
 const FormInscripcion: React.FC = () => {
-    const [selectedUser, setSelectedUser] = useState<string>('');
-    const [selectedPlan, setSelectedPlan] = useState<string>('');
-    const [benefits, setBenefits] = useState<string>('Los beneficios del plan seleccionado se mostrarán aquí.');
+  const [open, setOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<string>('');
+  const [dataUsers, setDataUsers] = useState<Datum[]>([]);
+  const [dataPlans, setDataPlans] = useState<PlanesInterface[]>([]);
+  const [dataBenefits, setDataBenefits] = useState<string>('');
+  const [selectedPlan, setSelectedPlan] = useState<string>('');
+  const [benefits, setBenefits] = useState<string>(
+    'Los beneficios del plan seleccionado se mostrarán aquí.',
+  );
 
-    const users = ['Usuario 1', 'Usuario 2', 'Usuario 3'];
-    const plans = ['Plan A', 'Plan B', 'Plan C'];
+  useEffect(() => {
+    const fetchData = async () => {
+      const resUsers = await getPaginatedUsers({
+        order: 'ASC',
+        page: 1,
+        perPage: 11,
+        search: '',
+      });
 
-    const handleUserChange = (event: SelectChangeEvent<string>) => {
-        setSelectedUser(event.target.value as string);
+      const resPlans = await getPlans();
+      if (selectedPlan) {
+        const res = await getOnlyPlanBenefits({ id: selectedPlan });
+        const benefits = res.data
+          .map((benefit: { description: string }) => benefit.description)
+          .join(', ');
+        setBenefits(benefits);
+      }
+      setDataUsers(resUsers.data);
+      setDataPlans(resPlans.data);
     };
 
-    const handlePlanChange = (event: SelectChangeEvent<string>) => {
-        setSelectedPlan(event.target.value as string);
-    };
+    fetchData();
+  }, [selectedPlan]);
 
-    return (
-        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-            <Paper elevation={3} sx={{ padding: 3, maxWidth: '400px', width: '100%', borderRadius: '10px' }}>
-                <Typography variant="h6" gutterBottom align="center">
-                    Formulario de Inscripción
-                </Typography>
-                <FormControl fullWidth sx={{ mb: 2 }}>
-                    <Typography variant="subtitle1" gutterBottom>
-                        Seleccionar Usuario
-                    </Typography>
-                    <Select
-                        value={selectedUser}
-                        onChange={handleUserChange}
-                        displayEmpty
-                    >
-                        <MenuItem value="" disabled>Seleccione un usuario</MenuItem>
-                        {users.map((user, index) => (
-                            <MenuItem key={index} value={user}>{user}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <FormControl fullWidth sx={{ mb: 2 }}>
-                    <Typography variant="subtitle1" gutterBottom>
-                        Seleccionar Plan
-                    </Typography>
-                    <Select
-                        value={selectedPlan}
-                        onChange={handlePlanChange}
-                        displayEmpty
-                    >
-                        <MenuItem value="" disabled>Seleccione un plan</MenuItem>
-                        {plans.map((plan, index) => (
-                            <MenuItem key={index} value={plan}>{plan}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <Box sx={{ mb: 2 }}>
-                    <Typography variant="subtitle1" gutterBottom>
-                        Beneficios
-                    </Typography>
-                    <TextField
-                        fullWidth
-                        variant="outlined"
-                        multiline
-                        rows={4}
-                        value={benefits}
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                    />
-                </Box>
-                <Box display="flex" justifyContent="center" sx={{ gap: 2 }}>
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        style={{
-                            backgroundColor: '#4caf50',
-                            color: '#ffffff',
-                            fontSize: '0.875rem',
-                            padding: '8px 16px'
-                        }}
-                    >
-                        Guardar
-                    </Button>
-                </Box>
-            </Paper>
-        </Box>
-    );
+  const handleUserChange = (event: SelectChangeEvent<string>) => {
+    setSelectedUser(event.target.value as string);
+  };
+
+  const handlePlanChange = (event: SelectChangeEvent<string>) => {
+    setSelectedPlan(event.target.value as string);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries((formData as any).entries());
+    formJson.userId = selectedUser;
+    formJson.planId = selectedPlan;
+  };
+
+  return (
+    <>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Agregar Inscripcion
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        maxWidth="sm"
+        PaperProps={{
+          component: 'form',
+          onSubmit: handleSubmit,
+        
+        }}
+      >
+        <DialogTitle>Formulario de Inscripción</DialogTitle>
+        <DialogContent>
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              Seleccionar Usuario
+            </Typography>
+            <Select
+              value={selectedUser}
+              onChange={handleUserChange}
+              displayEmpty
+            >
+              <MenuItem value="" disabled>
+                Seleccione un usuario
+              </MenuItem>
+              {dataUsers.map((user) => (
+                <MenuItem key={user.id} value={user.id}>
+                  {user.name} {user.lastName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              Seleccionar Plan
+            </Typography>
+            <Select
+              value={selectedPlan}
+              onChange={handlePlanChange}
+              displayEmpty
+            >
+              <MenuItem value="" disabled>
+                Seleccione un plan
+              </MenuItem>
+              {dataPlans.map((plan) => (
+                <MenuItem key={plan.id} value={plan.id}>
+                  {plan.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              Beneficios
+            </Typography>
+            <TextField
+              fullWidth
+              variant="outlined"
+              multiline
+              rows={4}
+              InputProps={{
+                readOnly: true,
+              }}
+              defaultValue={benefits}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            Cancelar
+          </Button>
+          <Button onClick={handleClose}
+            color="primary"
+            variant="contained"
+            style={{
+              backgroundColor: '#4caf50',
+              color: '#ffffff',
+              fontSize: '0.875rem',
+              padding: '8px 16px',
+            }}
+            type="submit"
+            
+          >
+            Guardar
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
 };
 
 export default FormInscripcion;
-
