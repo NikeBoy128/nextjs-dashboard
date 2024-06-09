@@ -20,6 +20,7 @@ import { Datum } from './interfaces/userlist';
 import { SearchModal } from './search';
 import FormModal from './formmodal';
 import FormDialogEdit from './formeditmodal';
+import AlertComponent from './alert';
 
 export default function UserTable() {
   const [data, setData] = useState<Datum[]>([]);
@@ -28,6 +29,7 @@ export default function UserTable() {
   const [search, setSearch] = useState('');
   const [selectedUser, setSelectedUser] = useState<Datum>(Object);
   const [reload, setReload] = useState(false);
+  const [alert, setAlert] = React.useState<React.ReactNode | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,8 +59,11 @@ export default function UserTable() {
   };
 
   const handleDelete =  async (id: string) => {
-    await deleteUser({ id });
+    setAlert(null);
+    const response=await  deleteUser({ id });
     setReload(!reload);
+    setAlert(<AlertComponent message={response.message} code={response.code} />);
+
   }
 
   return (
@@ -120,6 +125,8 @@ export default function UserTable() {
         onChange={handleChange}
         sx={{ marginTop: 2, display: 'flex', justifyContent: 'center' }}
       />
+      {alert}
     </Box>
+    
   );
 }
