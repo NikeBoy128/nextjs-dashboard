@@ -27,6 +27,7 @@ export default function UserTable() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [selectedUser, setSelectedUser] = useState<Datum>(Object);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +42,7 @@ export default function UserTable() {
     };
 
     fetchData();
-  }, [page, search]);
+  }, [page, search,reload]);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -63,7 +64,7 @@ export default function UserTable() {
     <Box sx={{ padding: 2 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2, width: '80%', margin: 'auto' }}>
       <SearchModal onSearch={setSearch} />
-      <FormModal/>
+      <FormModal onUserSaved={() => setReload(!reload)}/>
       </Box>
       <TableContainer component={Paper} sx={{ width: '80%', margin: 'auto', marginTop: 2 }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

@@ -12,8 +12,11 @@ import { CreateUser, getRoles } from './interfaces/api/api';
 import { Datum, UserFormInterface, getRolesInterface } from './interfaces/userlist';
 import AlertComponent from './alert';
 import {Box,IconButton,} from '@mui/material';
+interface FormModalProps {
+  onUserSaved: () => void;
+}
 
-export default function FormDialog() {
+export default function FormDialog({ onUserSaved }: FormModalProps) {
  
  
   const [open, setOpen] = React.useState(false);
@@ -48,6 +51,7 @@ export default function FormDialog() {
     setAlert(null)
     handleClose();
     setAlert(<AlertComponent message={response.message} code={response.code} />);
+    onUserSaved();
   };
 
   return (
