@@ -8,6 +8,7 @@ RUN npm install
 
 RUN npm install @mui/material @emotion/react @emotion/styled
 
+
 RUN npm install -g pm2
 
 COPY . .
@@ -15,6 +16,5 @@ COPY . .
 RUN npm run build
 
 EXPOSE 3000
-
 
 CMD ["pm2-runtime", "start", "npm", "--", "start"]
