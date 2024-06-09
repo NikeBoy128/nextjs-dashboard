@@ -58,6 +58,7 @@ export default function UserTable() {
 
   const handleDelete =  async (id: string) => {
     await deleteUser({ id });
+    setReload(!reload);
   }
 
   return (
